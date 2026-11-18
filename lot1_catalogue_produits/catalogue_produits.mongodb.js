@@ -56,7 +56,7 @@ db.produits.insertMany([
     stock: 500,
     specs: { licence: "Clé numérique", nb_postes: 1 },
     compatibles: []
-  }
+}
 ]);
 
 
@@ -64,15 +64,22 @@ db.produits.insertMany([
 db.avis.drop();
 
 db.avis.insertMany([
-  { _id: "A1", produit_id: "P1", client: "Jean",  note: 5, commentaire: "Parfait pour le gaming", date: new Date("2026-09-02") },
-  { _id: "A2", produit_id: "P1", client: "Max",   note: 4, commentaire: "Chauffe un peu",        date: new Date("2026-09-30") },
-  { _id: "A3", produit_id: "P1", client: "Léa",   note: 5, commentaire: "Le meilleur CPU",       date: new Date("2026-10-12") },
-  { _id: "A4", produit_id: "P4", client: "Sam",   note: 4, commentaire: "Très légère",           date: new Date("2026-08-21") }
+{ _id: "A1", produit_id: "P1", client: "Jean",  note: 5, commentaire: "Parfait pour le gaming", date: new Date("2026-09-02") },
+{ _id: "A2", produit_id: "P1", client: "Max",   note: 4, commentaire: "Chauffe un peu",        date: new Date("2026-09-30") },
+{ _id: "A3", produit_id: "P1", client: "Léa",   note: 5, commentaire: "Le meilleur CPU",       date: new Date("2026-10-12") },
+{ _id: "A4", produit_id: "P4", client: "Sam",   note: 4, commentaire: "Très légère",           date: new Date("2026-08-21") }
 ]);
 
 // Résumé des avis dans la fiche produit (Computed Pattern)
 db.produits.updateOne({ _id: "P1" }, { $set: { nb_avis: 3, total_notes: 14 } });
 db.produits.updateOne({ _id: "P4" }, { $set: { nb_avis: 1, total_notes: 4 } });
+
+
+// ---------- INDEX (pour accélérer les recherches fréquentes) ----------
+db.produits.createIndex({ categorie: 1, prix: 1 });   // R2 et R5 : une catégorie triée par prix
+db.produits.createIndex({ "specs.socket": 1 });       // R4 : recherche par socket
+db.avis.createIndex({ produit_id: 1, date: -1 });     // R8 : les avis d'un produit, du plus récent
+
 
 // Afficher tous les produits
 db.produits.find();

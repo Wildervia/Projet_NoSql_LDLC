@@ -47,3 +47,13 @@ use('ldlc');
 db.avis.aggregate([
 { $group: { _id: "$produit_id", note_moyenne: { $avg: "$note" }, nombre: { $sum: 1 } } }
 ]);
+
+use('ldlc');
+// R11 - Voir la liste des index
+db.produits.getIndexes();
+
+use('ldlc');
+
+// R12 - Vérifier que la recherche utilise bien l'index
+db.produits.find({ categorie: "Processeur" }).sort({ prix: 1 }).explain();
+
