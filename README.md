@@ -19,7 +19,7 @@ architecture **polyglotte** : chaque besoin métier utilise la base NoSQL la plu
 [Schéma d'architecture](docs/architecture.png)
 
 ## Sommaire des livrables
-- [Document de conception](docs/) — choix, schémas, compromis, requêtes types
+- [Document de conception](docs/document_de_conception.pdf) — choix, schémas, compromis, requêtes types
 - [Schéma d'architecture](docs/architecture.png)
 - [Lot 1 — Catalogue (MongoDB)](lot1_catalogue_produits/)
 - [Lot 2 — Panier & sessions (Redis)](lot2_panier_sessions/)
