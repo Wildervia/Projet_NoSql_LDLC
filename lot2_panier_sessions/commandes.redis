@@ -1,0 +1,44 @@
+# ===== Lot 2 - Sessions utilisateurs =====
+
+# Créer une session (un HASH avec plusieurs champs)
+HSET session:abc123 user_id U1 nom Jean derniere_page /accueil
+
+# Lire toute la session
+HGETALL session:abc123
+
+# Lire un seul champ
+HGET session:abc123 nom
+
+# Durée de vie : 30 minutes = 1800 secondes
+EXPIRE session:abc123 1800
+
+# Combien de secondes reste-t-il ?
+TTL session:abc123
+
+# Le client clique sur une page : on met à jour la session ET on relance les 30 minutes
+HSET session:abc123 derniere_page /processeurs
+EXPIRE session:abc123 1800
+
+# ===== Lot 2 - Test de l'expiration automatique =====
+
+# Créer une clé qui vit 15 secondes
+SET test:expiration bonjour EX 15
+
+# Lire la clé et voir le temps restant
+GET test:expiration
+TTL test:expiration
+
+# Attendre 15 secondes, puis relancer :
+GET test:expiration
+EXISTS test:expiration
+
+# ===== Lot 2 - Validation de la commande =====
+
+# 1. Lire le panier (l'application l'enregistre comme commande dans Cassandra - lot 3)
+HGETALL panier:U1
+
+# 2. Supprimer le panier de Redis
+DEL panier:U1
+
+# 3. Vérifier qu'il n'existe plus
+EXISTS panier:U1
